@@ -1,9 +1,8 @@
-import pandas as pd
-import numpy as np
-import xgboost as xgb
-from sklearn.model_selection import ParameterSampler
 from sklearn.metrics import mean_squared_error
-import warnings
+from sklearn.svm import SVR
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import ParameterSampler
 
 
 # Load the data
@@ -26,22 +25,34 @@ X_test = data_shuffled.iloc[test_idx, :-2]
 y_test = data_shuffled.iloc[test_idx, -1]
 
 # Create the model
-xgb_model = xgb.XGBRegressor()
+svr = SVR()
 
 # Define the hyperparameters
-random_grid = {'n_estimators': [int(x) for x in np.linspace(start=100, stop=1000, num=10)],
-               'max_depth': [int(x) for x in np.linspace(start=1, stop=20, num=10)],
-               'learning_rate': [0.1, 0.2, 0.5]}
+C = [1, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+gamma = [float(x) for x in np.linspace(start=0.1, stop=1, num=10)]
+kernel = ['linear', 'poly', 'rbf']
+degree = [1, 2, 3, 4, 5]
 
-min_mse = np.inf
+# Create the random grid
+random_grid = {'C': C,
+               'gamma': gamma,
+               'kernel': kernel,
+               'degree': degree}
+
+# Hyperparameter tuning using validation set
+min_mse = float('inf')
 best_params = None
+iteration = 0
 
-# Lower n_iter to 4800 to match the number of unique combinations
-for params in ParameterSampler(random_grid, n_iter=1000, random_state=587):
-    xgb_model.set_params(**params)
-    xgb_model.fit(X_train, y_train)
-    preds = xgb_model.predict(X_valid)
+# It's recommended to use a limited number of iterations for practical runtime consideration
+for params in ParameterSampler(random_grid, n_iter=100, random_state=587):
+    iteration += 1
+    svr.set_params(**params)
+    svr.fit(X_train, y_train)
+    preds = svr.predict(X_valid)
     mse = mean_squared_error(y_valid, preds)
+
+    print(f"Iteration {iteration}: Params={params}, MSE={mse}")
 
     if mse < min_mse:
         min_mse = mse
@@ -50,17 +61,18 @@ for params in ParameterSampler(random_grid, n_iter=1000, random_state=587):
 print('Best parameters found: ', best_params)
 
 # predict on test set
-xgb_model.set_params(**best_params)
-xgb_model.fit(X_train, y_train)
-predicted = xgb_model.predict(X_test)
+svr.set_params(**best_params)
+svr.fit(X_train, y_train)
+predicted = svr.predict(X_test)
 mse = mean_squared_error(y_test, predicted)
-r2 = xgb_model.score(X_test, y_test)
+r2 = svr.score(X_test, y_test)
 print('MSE on test set: ', mse)
 print('R2 on test set: ', r2)
 
 # save the results
 rf_res = pd.DataFrame({'Idx': list(test_idx), 'E': list(y_test), 'E_pred': list(predicted)})
-rf_res.to_csv('./csv_data/xgb_opt_res.csv', index=False)
+rf_res.to_csv('./csv_data/svr_opt_res.csv', index=False)
 
 # save the model
-xgb_model.save_model('./model_output/xgb_opt_model.json')
+import pickle
+pickle.dump(svr, open('./model_output/svr_opt_model.pkl', 'wb'))
