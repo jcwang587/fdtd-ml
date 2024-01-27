@@ -10,8 +10,8 @@ from sklearn.metrics import r2_score, mean_squared_error
 data = pd.read_csv('ml-pillar.csv')
 
 # Separate features and target variable
-X = data.drop(['E', 'Q'], axis=1)  # Assuming 'Q' is not the target
-y = data['Q']
+X = data.drop(['wavelength', 'E', 'Q'], axis=1)
+y = data['E']
 
 # Standardizing the features
 scaler = StandardScaler()
