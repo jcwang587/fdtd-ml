@@ -11,8 +11,8 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score, mean_squared_error
 
 # Separate features and target variable
-X = data.drop(['peak resonance wavelength', 'E', 'Q'], axis=1)  # Assuming 'Q' is not the target
-y = data['E']
+X = data.drop(['E', 'Q'], axis=1)  # Assuming 'Q' is not the target
+y = data['Q']
 
 # Standardizing the features
 scaler = StandardScaler()
