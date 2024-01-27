@@ -1,4 +1,4 @@
-mode count,mode index,gap width ,ring width,overall size,height,peak resonance wavelength,E,Q
+mode count,mode index,gap width,ring width,overall size,height,wavelength,E,Q
 2,0,2,15,90,50,672,42.6,9.96622
 2,1,2,15,90,50,1038,21.2,19.72893
 2,0,2.9333,15,90,50,621,28.4,7.21109

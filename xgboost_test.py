@@ -1,14 +1,13 @@
 import pandas as pd
 
-
-# Load the data
-data = pd.read_csv('ml-pillaring.csv')
-
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from xgboost import XGBRegressor
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import r2_score, mean_squared_error
+
+# Load the data
+data = pd.read_csv('ml-pillar.csv')
 
 # Separate features and target variable
 X = data.drop(['E', 'Q'], axis=1)  # Assuming 'Q' is not the target
@@ -17,7 +16,6 @@ y = data['Q']
 # Standardizing the features
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
-
 
 # Splitting the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.1, random_state=539)
@@ -53,6 +51,7 @@ mse = mean_squared_error(y_test, y_pred)
 # Plot the parity plot
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 sns.set()
 
 plt.figure(figsize=(8, 8))
@@ -62,6 +61,3 @@ plt.xlabel('Actual')
 plt.ylabel('Predicted')
 plt.title('XGBoost Regressor')
 plt.show()
-
-
-
