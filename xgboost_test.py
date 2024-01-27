@@ -22,10 +22,10 @@ X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.1, 
 
 # Setting up the parameter grid for hyperparameter tuning
 param_grid = {
-    'n_estimators': [10, 50, 100, 200, 300, 400, 500],
-    'learning_rate': [0.01, 0.015, 0.02, 0.05],
-    'max_depth': [1, 2, 3, 4, 5],
-    'colsample_bytree': [0.6, 0.7, 0.8, 0.9, 1],
+    'n_estimators': [250, 300, 325, 350, 375, 400, 450],
+    'learning_rate': [0.01, 0.0125, 0.015, 0.0175, 0.02],
+    'max_depth': [3, 4, 5, 6, 7],
+    'colsample_bytree': [0.6, 0.65, 0.7, 0.75, 0.8],
 }
 
 # Creating the XGBRegressor model
