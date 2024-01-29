@@ -32,26 +32,17 @@ for i in range(10000):
     # Create the model
     xgb_model = xgb.XGBRegressor()
 
-    # Define the hyperparameters
-    random_grid = {'n_estimators': [int(x) for x in np.linspace(start=100, stop=1000, num=10)],
-                   'max_depth': [int(x) for x in np.linspace(start=1, stop=20, num=10)],
-                   'learning_rate': [0.1, 0.2, 0.5]}
-
-    min_mse = np.inf
-    best_params = None
-
-    # Lower n_iter to 4800 to match the number of unique combinations
-    for params in ParameterSampler(random_grid, n_iter=1000, random_state=587):
-        xgb_model.set_params(**params)
-        xgb_model.fit(X_train, y_train)
-        preds = xgb_model.predict(X_valid)
-        mse = mean_squared_error(y_valid, preds)
-
-        if mse < min_mse:
-            min_mse = mse
-            best_params = params
-
-    print('Best parameters found: ', best_params)
+    # Define the best parameters
+    best_params = {
+        'max_depth': 5,
+        'min_child_weight': 1,
+        'eta': 0.1,
+        'subsample': 1,
+        'colsample_bytree': 1,
+        'objective': 'reg:squarederror',
+        'eval_metric': 'rmse',
+        'seed': 0
+    }
 
     # predict on test set
     xgb_model.set_params(**best_params)

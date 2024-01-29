@@ -7,7 +7,7 @@ import warnings
 
 
 # Load the data
-data = pd.read_csv('ml-pillaring.csv')
+data = pd.read_csv('ml-pillar.csv')
 data_shuffled = data.sample(frac=1, random_state=411)
 
 # split the data to train, validation and test
