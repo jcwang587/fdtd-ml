@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
-import xgboost as xgb
-from sklearn.model_selection import ParameterSampler
-from sklearn.metrics import mean_squared_error
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from xgboost import XGBRegressor
+from sklearn.metrics import r2_score, mean_squared_error
 
 # Load the data
 data = pd.read_csv('ml-pillar.csv')
@@ -12,44 +13,37 @@ best_iteration = None  # To keep track of the best iteration
 
 for i in range(10000):
     print(f'Iteration {i}')
-    data_shuffled = data.sample(frac=1, random_state=i)
 
-    # split the data to train, validation and test
-    train_idx = data_shuffled.index[:int(0.8 * len(data_shuffled))]
-    valid_idx = data_shuffled.index[int(0.8 * len(data_shuffled)):int(0.9 * len(data_shuffled))]
-    test_idx = data_shuffled.index[int(0.9 * len(data_shuffled)):]
+    # Separate features and target variable
+    X = data.drop(['wavelength', 'E', 'Q'], axis=1)
+    y = data['Q']
 
-    # split the data to train, validation and test, the first 5 columns are features, the last column is the target
-    X_train = data_shuffled.iloc[train_idx, :-3]
-    y_train = data_shuffled.iloc[train_idx, -1]
+    # Standardizing the features
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
 
-    X_valid = data_shuffled.iloc[valid_idx, :-3]
-    y_valid = data_shuffled.iloc[valid_idx, -1]
+    # Splitting the data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.1, random_state=i)
 
-    X_test = data_shuffled.iloc[test_idx, :-3]
-    y_test = data_shuffled.iloc[test_idx, -1]
+    # Creating the XGBRegressor model
+    xgb_model = XGBRegressor()
 
-    # Create the model
-    xgb_model = xgb.XGBRegressor()
-
-    # Define the best parameters
+    # Set the best parameters
     best_params = {
+        'colsample_bytree': 0.7,
+        'learning_rate': 0.015,
         'max_depth': 5,
-        'min_child_weight': 1,
-        'eta': 0.1,
-        'subsample': 1,
-        'colsample_bytree': 1,
-        'objective': 'reg:squarederror',
-        'eval_metric': 'rmse',
-        'seed': 0
+        'n_estimators': 350
     }
 
-    # predict on test set
-    xgb_model.set_params(**best_params)
-    xgb_model.fit(X_train, y_train)
-    predicted = xgb_model.predict(X_test)
-    mse = mean_squared_error(y_test, predicted)
-    r2 = xgb_model.score(X_test, y_test)
+    # Training the model with the best parameters
+    best_xgb_model = XGBRegressor(**best_params)
+    best_xgb_model.fit(X_train, y_train)
+
+    # Predicting and evaluating the model
+    y_pred = best_xgb_model.predict(X_test)
+    r2 = r2_score(y_test, y_pred)
+    mse = mean_squared_error(y_test, y_pred)
 
     # Check if this iteration has a better R2 score
     if r2 > best_r2:
