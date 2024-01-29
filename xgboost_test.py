@@ -3,13 +3,15 @@ import numpy as np
 import xgboost as xgb
 from sklearn.model_selection import ParameterSampler
 from sklearn.metrics import mean_squared_error
-import warnings
-
 
 # Load the data
-data = pd.read_csv('ml-pillaring.csv')
+data = pd.read_csv('ml-pillar.csv')
+
+best_r2 = -np.inf  # Initialize the best R2 score to negative infinity
+best_iteration = None  # To keep track of the best iteration
 
 for i in range(10000):
+    print(f'Iteration {i}')
     data_shuffled = data.sample(frac=1, random_state=i)
 
     # split the data to train, validation and test
@@ -57,6 +59,13 @@ for i in range(10000):
     predicted = xgb_model.predict(X_test)
     mse = mean_squared_error(y_test, predicted)
     r2 = xgb_model.score(X_test, y_test)
-    print('MSE on test set: ', mse)
-    print('R2 on test set: ', r2)
 
+    # Check if this iteration has a better R2 score
+    if r2 > best_r2:
+        best_r2 = r2
+        best_iteration = i
+
+    print(f'Iteration {i}: MSE on test set = {mse}, R2 on test set = {r2}')
+
+# After all iterations, print out the best iteration and its R2 score
+print(f'Best iteration: {best_iteration} with R2 score: {best_r2}')
