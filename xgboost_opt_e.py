@@ -17,7 +17,10 @@ scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
 
 # Splitting the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.1, random_state=539)
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.1, random_state=2546)
+
+# Creating the XGBRegressor model
+xgb_model = XGBRegressor()
 
 # Set the best parameters
 best_params = {
@@ -26,15 +29,6 @@ best_params = {
     'max_depth': 5,
     'n_estimators': 350
 }
-
-# Creating the XGBRegressor model
-xgb_model = XGBRegressor()
-
-
-
-# Best parameters and best score
-best_params = grid_search.best_params_
-best_score = grid_search.best_score_
 
 # Training the model with the best parameters
 best_xgb_model = XGBRegressor(**best_params)
