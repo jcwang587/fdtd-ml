@@ -19,20 +19,18 @@ X_scaled = scaler.fit_transform(X)
 # Splitting the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.1, random_state=539)
 
-# Setting up the parameter grid for hyperparameter tuning
-param_grid = {
-    'n_estimators': [250, 300, 325, 350, 375, 400, 450],
-    'learning_rate': [0.01, 0.0125, 0.015, 0.0175, 0.02],
-    'max_depth': [3, 4, 5, 6, 7],
-    'colsample_bytree': [0.6, 0.65, 0.7, 0.75, 0.8],
+# Set the best parameters
+best_params = {
+    'colsample_bytree': 0.7,
+    'learning_rate': 0.015,
+    'max_depth': 5,
+    'n_estimators': 350
 }
 
 # Creating the XGBRegressor model
 xgb_model = XGBRegressor()
 
-# GridSearchCV for hyperparameter tuning
-grid_search = GridSearchCV(estimator=xgb_model, param_grid=param_grid, cv=3, n_jobs=-1, verbose=2, scoring='r2')
-grid_search.fit(X_train, y_train)
+
 
 # Best parameters and best score
 best_params = grid_search.best_params_

@@ -16,7 +16,7 @@ for i in range(10000):
 
     # Separate features and target variable
     X = data.drop(['wavelength', 'E', 'Q'], axis=1)
-    y = data['Q']
+    y = data['E']
 
     # Standardizing the features
     scaler = StandardScaler()
