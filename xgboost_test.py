@@ -16,14 +16,14 @@ for i in range(10000):
 
     # Separate features and target variable
     X = data.drop(['wavelength', 'E', 'Q'], axis=1)
-    y = data['E']
+    Y = data[['E', 'Q']]  # Multi-target
 
     # Standardizing the features
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X)
 
     # Splitting the data into training and testing sets
-    X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.1, random_state=i)
+    X_train, X_test, Y_train, Y_test = train_test_split(X_scaled, Y, test_size=0.1, random_state=i)
 
     # Creating the XGBRegressor model
     xgb_model = XGBRegressor()
@@ -38,12 +38,12 @@ for i in range(10000):
 
     # Training the model with the best parameters
     best_xgb_model = XGBRegressor(**best_params)
-    best_xgb_model.fit(X_train, y_train)
+    best_xgb_model.fit(X_train, Y_train)
 
     # Predicting and evaluating the model
-    y_pred = best_xgb_model.predict(X_test)
-    r2 = r2_score(y_test, y_pred)
-    mse = mean_squared_error(y_test, y_pred)
+    Y_pred = best_xgb_model.predict(X_test)
+    r2 = r2_score(Y_test, Y_pred, multioutput='variance_weighted')
+    mse = mean_squared_error(Y_test, Y_pred, multioutput='raw_values')
 
     # Check if this iteration has a better R2 score
     if r2 > best_r2:
