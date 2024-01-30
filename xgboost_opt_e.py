@@ -28,9 +28,9 @@ from sklearn.model_selection import GridSearchCV
 
 # Define the parameter grid
 param_grid = {
-    'n_estimators': [100, 150, 200, 250, 300, 350, 400, 450, 500],
-    'max_depth': [3, 4, 5, 6, 7, 8, 9],
-    'learning_rate': [0.005, 0.01, 0.015, 0.02],
+    'n_estimators': [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+    'max_depth': [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    'learning_rate': [0.001, 0.002, 0.005, 0.01, 0.015, 0.02],
 }
 
 # Set up the grid search
