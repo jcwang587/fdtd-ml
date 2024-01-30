@@ -79,9 +79,9 @@ plt.show()
 import shap
 
 explainer = shap.TreeExplainer(optimized_xgb_model)
-shap_values = explainer.shap_values(X_test)
+shap_values = explainer.shap_values(X_train)
 
-shap.summary_plot(shap_values, X_test, show=False, feature_names=X.columns)
+shap.summary_plot(shap_values, X_train, show=False, feature_names=X.columns)
 fig, ax = plt.gcf(), plt.gca()
 ax.set_xlabel("SHAP value", fontsize=14)
 ax.spines['right'].set_visible(True)
