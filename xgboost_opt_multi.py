@@ -5,6 +5,7 @@ from xgboost import XGBRegressor
 from sklearn.metrics import r2_score, mean_squared_error
 import seaborn as sns
 import matplotlib.pyplot as plt
+import shap
 
 # Load the data
 data = pd.read_csv("ml-pillar.csv")
@@ -104,3 +105,30 @@ plt.title(f"Parity Plot for Q\nR2: {r2_Q:.4f}, MSE: {mse_Q:.4f}")
 
 plt.tight_layout()
 plt.show()
+plt.close()
+
+
+# Shapley values for E
+cols = list(data.columns)[0:-3]
+explainer = shap.TreeExplainer(optimized_xgb_model)
+shap_values = explainer.shap_values(data[cols])
+
+shap.summary_plot(shap_values, data[cols], class_names=["E", "Q"], show=False)
+fig, ax = plt.gcf(), plt.gca()
+ax.set_xlabel("SHAP value", fontsize=14)
+ax.spines['right'].set_visible(True)
+ax.spines['left'].set_visible(True)
+ax.spines['top'].set_visible(True)
+ax.spines['right'].set_linewidth(1.5)
+ax.spines['top'].set_linewidth(1.5)
+ax.spines['bottom'].set_linewidth(1.5)
+ax.spines['left'].set_linewidth(1.5)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+fig.axes[-1].yaxis.label.set_size(14)
+fig.axes[-1].get_yticklabels()[0].set_fontsize(14)
+fig.axes[-1].get_yticklabels()[-1].set_fontsize(14)
+
+plt.savefig("./shap_summary_E.svg", dpi=1200, format="svg")
+plt.close()
+
