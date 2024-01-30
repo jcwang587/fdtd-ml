@@ -47,6 +47,9 @@ mse_E = mean_squared_error(y_test["E"], y_pred_E)
 r2_Q = r2_score(y_test["Q"], y_pred_Q)
 mse_Q = mean_squared_error(y_test["Q"], y_pred_Q)
 
+print(f"R2 on test set for E: {r2_E:.4f}, MSE: {mse_E:.4f}")
+print(f"R2 on test set for Q: {r2_Q:.4f}, MSE: {mse_Q:.4f}")
+
 # Plotting parity plots
 sns.set()
 plt.figure(figsize=(16, 8))

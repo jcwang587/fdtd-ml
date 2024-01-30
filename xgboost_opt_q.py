@@ -17,7 +17,8 @@ X_scaled = scaler.fit_transform(X)
 
 # Splitting the data into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(
-    X_scaled, y, test_size=0.1, random_state=1204
+    # X_scaled, y, test_size=0.1, random_state=1204
+    X_scaled, y, test_size=0.1, random_state=2737
 )
 
 # Creating the XGBRegressor model
@@ -39,6 +40,8 @@ best_xgb_model.fit(X_train, y_train)
 y_pred = best_xgb_model.predict(X_test)
 r2 = r2_score(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
+
+print(f"R2 on test set for E: {r2:.4f}, MSE: {mse:.4f}")
 
 # Plot the parity plot
 import matplotlib.pyplot as plt
