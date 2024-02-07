@@ -72,7 +72,7 @@ plt.scatter(y_test, y_pred_optimized)
 plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], "k--")
 plt.xlabel("Actual")
 plt.ylabel("Predicted")
-plt.title("XGBoost Regressor")
+plt.title("Single-target XGBoost Prediction for E")
 plt.show()
 
 # shapley values
