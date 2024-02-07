@@ -73,7 +73,8 @@ plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], "k--")
 plt.xlabel("Actual")
 plt.ylabel("Predicted")
 plt.title("Single-target XGBoost Prediction for E")
-plt.show()
+plt.savefig("./parity_plot_E.svg", dpi=1200, format="svg")
+plt.close()
 
 # shapley values
 import shap
