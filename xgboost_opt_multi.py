@@ -89,7 +89,7 @@ plt.plot(
 )
 plt.xlabel("Actual E")
 plt.ylabel("Predicted E")
-plt.title(f"Multi-target XGBoost Prediction for E\nR2: {r2_E:.4f}, MSE: {mse_E:.4f}")
+plt.title(f"Multi-Target XGBoost Prediction for E\nR2: {r2_E:.4f}, MSE: {mse_E:.4f}")
 
 # Parity plot for Q
 plt.subplot(1, 2, 2)
@@ -101,7 +101,7 @@ plt.plot(
 )
 plt.xlabel("Actual Q")
 plt.ylabel("Predicted Q")
-plt.title(f"Multi-target XGBoost Prediction for Q\nR2: {r2_Q:.4f}, MSE: {mse_Q:.4f}")
+plt.title(f"Multi-Target XGBoost Prediction for Q\nR2: {r2_Q:.4f}, MSE: {mse_Q:.4f}")
 
 plt.tight_layout()
 plt.savefig("./parity_plots.svg", dpi=1200, format="svg")

@@ -72,7 +72,7 @@ plt.scatter(y_test, y_pred_optimized)
 plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], "k--")
 plt.xlabel("Actual")
 plt.ylabel("Predicted")
-plt.title("Single-target XGBoost Prediction for E\nR2: {:.4f}, MSE: {:.4f}".format(r2_optimized, mse_optimized))
+plt.title("Single-Target XGBoost Prediction for E\nR2: {:.4f}, MSE: {:.4f}".format(r2_optimized, mse_optimized))
 plt.savefig("./parity_plot_E.svg", dpi=1200, format="svg")
 plt.close()
 
