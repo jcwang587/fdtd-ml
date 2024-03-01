@@ -81,7 +81,7 @@ plt.figure(figsize=(16, 8))
 
 # Parity plot for E
 plt.subplot(1, 2, 1)
-plt.scatter(y_test["E"], y_pred_E, s=300)
+plt.scatter(y_test["E"], y_pred_E, s=100)
 plt.plot(
     [y_test["E"].min(), y_test["E"].max()],
     [y_test["E"].min(), y_test["E"].max()],
@@ -95,7 +95,7 @@ plt.title(f"Multi-Target XGBoost Prediction for E\n$R^2$: {r2_E:.3f}, MSE: {mse_
 
 # Parity plot for Q
 plt.subplot(1, 2, 2)
-plt.scatter(y_test["Q"], y_pred_Q, s=300)
+plt.scatter(y_test["Q"], y_pred_Q, s=100)
 plt.plot(
     [y_test["Q"].min(), y_test["Q"].max()],
     [y_test["Q"].min(), y_test["Q"].max()],

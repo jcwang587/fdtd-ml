@@ -68,7 +68,7 @@ import seaborn as sns
 sns.set()
 
 plt.figure(figsize=(8, 8))
-plt.scatter(y_test, y_pred_optimized)
+plt.scatter(y_test, y_pred_optimized, s=200)
 plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], "k--")
 plt.xlabel("Actual", fontsize=32)
 plt.ylabel("Predicted", fontsize=32)
