@@ -81,31 +81,31 @@ plt.figure(figsize=(16, 8))
 
 # Parity plot for E
 plt.subplot(1, 2, 1)
-plt.scatter(y_test["E"], y_pred_E, alpha=0.7)
+plt.scatter(y_test["E"], y_pred_E, s=100)
 plt.plot(
     [y_test["E"].min(), y_test["E"].max()],
     [y_test["E"].min(), y_test["E"].max()],
     "k--",
 )
-plt.xlabel("Actual E", fontsize=18)
-plt.ylabel("Predicted E", fontsize=18)
-plt.xticks(fontsize=18)
-plt.yticks(fontsize=18)
-plt.title(f"Multi-Target XGBoost Prediction for E\nR2: {r2_E:.4f}, MSE: {mse_E:.4f}", fontsize=18)
+plt.xlabel("Actual E", fontsize=32)
+plt.ylabel("Predicted E", fontsize=32)
+plt.xticks(fontsize=24)
+plt.yticks(fontsize=24)
+plt.title(f"Multi-Target XGBoost Prediction for E\n$R^2$: {r2_E:.3f}, MSE: {mse_E:.3f}", fontsize=24)
 
 # Parity plot for Q
 plt.subplot(1, 2, 2)
-plt.scatter(y_test["Q"], y_pred_Q, alpha=0.7)
+plt.scatter(y_test["Q"], y_pred_Q, s=100)
 plt.plot(
     [y_test["Q"].min(), y_test["Q"].max()],
     [y_test["Q"].min(), y_test["Q"].max()],
     "k--",
 )
-plt.xlabel("Actual Q", fontsize=18)
-plt.ylabel("Predicted Q", fontsize=18)
-plt.xticks(fontsize=18)
-plt.yticks(fontsize=18)
-plt.title(f"Multi-Target XGBoost Prediction for Q\nR2: {r2_Q:.4f}, MSE: {mse_Q:.4f}", fontsize=18)
+plt.xlabel("Actual Q", fontsize=32)
+plt.ylabel("Predicted Q", fontsize=32)
+plt.xticks(fontsize=24)
+plt.yticks(fontsize=24)
+plt.title(f"Multi-Target XGBoost Prediction for Q\n$R^2$: {r2_Q:.3f}, MSE: {mse_Q:.3f}", fontsize=24)
 
 plt.tight_layout()
 plt.savefig("./parity_plots.svg", dpi=1200, format="svg")
@@ -117,7 +117,7 @@ shap_values = explainer.shap_values(X_train)
 
 shap.summary_plot(shap_values, data[cols], class_names=["E", "Q"], show=False)
 fig, ax = plt.gcf(), plt.gca()
-ax.set_xlabel("SHAP value", fontsize=14)
+ax.set_xlabel("SHAP value", fontsize=20)
 ax.spines['right'].set_visible(True)
 ax.spines['left'].set_visible(True)
 ax.spines['top'].set_visible(True)
@@ -125,14 +125,14 @@ ax.spines['right'].set_linewidth(1.5)
 ax.spines['top'].set_linewidth(1.5)
 ax.spines['bottom'].set_linewidth(1.5)
 ax.spines['left'].set_linewidth(1.5)
-plt.xticks(fontsize=14)
-plt.yticks(fontsize=14)
-fig.axes[-1].yaxis.label.set_size(14)
-fig.axes[-1].get_yticklabels()[0].set_fontsize(14)
-fig.axes[-1].get_yticklabels()[-1].set_fontsize(14)
+plt.xticks(fontsize=18)
+plt.yticks(fontsize=18)
+fig.axes[-1].yaxis.label.set_size(20)
+fig.axes[-1].get_yticklabels()[0].set_fontsize(20)
+fig.axes[-1].get_yticklabels()[-1].set_fontsize(20)
+plt.legend(fontsize=18, frameon=False)
+plt.tight_layout()
 
 plt.savefig("./shap_summary.svg", dpi=1200, format="svg")
 plt.close()
-
-
 
