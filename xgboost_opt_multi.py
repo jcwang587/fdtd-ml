@@ -116,10 +116,11 @@ explainer = shap.TreeExplainer(optimized_xgb_model)
 shap_values = explainer.shap_values(X_train)
 
 shap.summary_plot(shap_values, data[cols], class_names=["E", "Q"], show=False)
-fig, ax = plt.gcf(), plt.gca()
-fig.set_size_inches(12, 7)
 
-ax.set_xlabel("SHAP value", fontsize=32)
+fig, ax = plt.gcf(), plt.gca()
+fig.set_size_inches(6, 4)
+
+ax.set_xlabel("SHAP value", fontsize=15)
 ax.spines['right'].set_visible(True)
 ax.spines['left'].set_visible(True)
 ax.spines['top'].set_visible(True)
@@ -127,17 +128,18 @@ ax.spines['right'].set_linewidth(1.5)
 ax.spines['top'].set_linewidth(1.5)
 ax.spines['bottom'].set_linewidth(1.5)
 ax.spines['left'].set_linewidth(1.5)
-plt.xticks(fontsize=24)
-plt.yticks(fontsize=24)
-fig.axes[-1].yaxis.label.set_size(32)
-fig.axes[-1].get_yticklabels()[0].set_fontsize(32)
-fig.axes[-1].get_yticklabels()[-1].set_fontsize(32)
-plt.legend(fontsize=32, frameon=False)
+plt.xticks(fontsize=15)
+plt.yticks(fontsize=15)
+fig.axes[-1].yaxis.label.set_size(15)
+fig.axes[-1].get_yticklabels()[0].set_fontsize(15)
+fig.axes[-1].get_yticklabels()[-1].set_fontsize(15)
+plt.legend(fontsize=15, frameon=False)
 
 for label in ax.get_yticklabels():
-    label.set_fontsize(32)
+    label.set_fontsize(15)
 
 plt.tight_layout()
-plt.savefig("./shap_summary.svg", dpi=1200, format="svg")
+plt.savefig("./shap_summary.png", dpi=1200, format="png")
 plt.close()
+
 
